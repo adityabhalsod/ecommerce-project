@@ -1,0 +1,33 @@
+FROM python:3.8-slim
+
+# it will enable python to do stdout logs instead of being buffered
+# Set environment varibles
+# ENV PYTHONUNBUFFERED 1
+
+RUN apt-get update && apt-get install -y binutils libproj-dev gdal-bin libgdal-dev wkhtmltopdf poppler-utils && apt-get install -y git
+# creating
+RUN mkdir -p /tmp/
+RUN mkdir -p /app
+# making /app as a current working dir
+WORKDIR /app
+
+# copy all file in app folder
+COPY . /app
+# copy requriements.txt in app folder
+COPY requirements.txt /requirements.txt
+# copy start celery server script, because we have made /app as current working directory so script can be executed.
+COPY docker/celery/scripts/celery.sh /celery.sh
+
+RUN /usr/local/bin/python -m pip install --upgrade pip --user --no-warn-script-location
+
+# running pip command to install all dependencies
+RUN pip install -r requirements.txt
+
+RUN python /app/manage.py migrate
+RUN python /app/manage.py collectstatic --no-input
+RUN python /app/manage.py seed
+
+RUN chmod +x /celery.sh
+
+#It will check whether we are able to connect to postgres service or not.
+ENTRYPOINT ["/celery.sh"]

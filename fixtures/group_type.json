@@ -1,0 +1,29 @@
+[
+    {
+        "model": "group.grouptype",
+        "pk": 1,
+        "fields": {
+            "type": "main_banner",
+            "display": "Main Banner",
+            "is_active": true
+        }
+    },
+    {
+        "model": "group.grouptype",
+        "pk": 2,
+        "fields": {
+            "type": "products",
+            "display": "Products",
+            "is_active": true
+        }
+    },
+    {
+        "model": "group.grouptype",
+        "pk": 3,
+        "fields": {
+            "type": "category",
+            "display": "Category",
+            "is_active": true
+        }
+    }
+]

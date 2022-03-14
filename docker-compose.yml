@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+  redisapp:
+    restart: always
+    build:
+      context: .
+      dockerfile: ./docker/redis/dockerfile
+    command: redis-server --save 20 1 --loglevel warning
+    user: root
+    hostname: redis
+    networks:
+     - app-network
+    ports:
+      - "6379:6379"
+    expose:
+      - 6379
+
+  django:
+    build:
+      context: .
+      dockerfile: ./docker/django/dockerfile
+    restart: always
+    command: /gunicorn.sh
+    volumes:
+      - /mnt/media/external:/app/media
+    networks:
+     - app-network
+    expose:
+      - "80"
+    links:
+      - celeryapp
+      - redisapp
+    env_file:
+      - .env
+
+  nginx:
+    image: nginx:1.13-alpine
+    restart: always
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: ./docker/nginx/dockerfile
+    volumes:
+      - /mnt/media/external:/app/media
+    ports:
+      - "80:80"
+    links:
+      - django
+      - redisapp
+    networks:
+     - app-network
+
+  celeryapp:
+    build:
+      context: .
+      dockerfile: ./docker/celery/dockerfile
+    restart: always
+    command: /celery.sh
+    networks:
+      - app-network
+    environment:
+        - C_FORCE_ROOT=1
+    env_file:
+      - ./.env
+    links:
+      - redisapp
+    depends_on:
+      - redisapp
+
+networks:
+  app-network:
+    driver: bridge

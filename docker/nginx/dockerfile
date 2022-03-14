@@ -1,0 +1,6 @@
+FROM nginx:stable-alpine
+
+# copying our custom configuration to our nginx service
+COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80
