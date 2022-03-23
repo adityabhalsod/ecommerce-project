@@ -6,7 +6,7 @@ from service.sendgrid.client import MailClient
 
 
 def default_kwargs():
-    kwargs = {}
+    kwargs = {"template_id": config.MESSAGE_TEMPLATE_ID}
     if config.OTP_EXPIRY_TIME:
         kwargs["otp_expiry"] = config.OTP_EXPIRY_TIME
     if config.OTP_LENGTH:

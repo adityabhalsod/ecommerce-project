@@ -32,6 +32,11 @@ MY_CONSTANCE_CONFIG = {
         "Message91 auth key.",
         str,
     ),
+    "MESSAGE_TEMPLATE_ID": (
+        "",
+        "Message91 Template ID.",
+        str,
+    ),
     "OTP_EXPIRY_TIME": (
         1,
         "Expiry of OTP to verify, in minutes (default : 1 day, min : 1 minute)",
