@@ -71,9 +71,6 @@ PROJECT_APPS = [
     "store",
     "warehouse",
     "wallet",
-    # "expanse",
-    # "otherincome",
-    # "wastage"
 ]
 
 # 3rd party app
