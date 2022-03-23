@@ -10,9 +10,6 @@ def convert_response(response: Response, **kwargs):
         our internal ServiceResponse object
     """
     message = ""
-    print("=============")
-    print(response.json())
-    print("=============")
     if response.json().get("type") == "error":
         message = response.json().get("message")
         status = "error"
