@@ -157,7 +157,6 @@ def set_membership(customer, type, is_payment_done=False, is_payment_in_cash=Fal
     membership_transaction = Transaction.objects.create(**transaction_data)
     membership.transaction = membership_transaction
     membership.save()
-    
 
     #  if none or payment is pending to create membership
     if not is_payment_done or is_payment_done == False:
@@ -169,6 +168,9 @@ def set_membership(customer, type, is_payment_done=False, is_payment_in_cash=Fal
             "orderCurrency": "INR",
         }
         payment_client = PaymentClient()
+        print("===========")
+        print(paymet_data)
+        print("===========")
         response = payment_client.create_order(paymet_data)
         ##### Create payment
 
