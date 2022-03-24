@@ -166,7 +166,7 @@ class ProductCollectionViewSet(viewsets.ModelViewSet):
         rest_filters.SearchFilter,
         rest_filters.OrderingFilter,
     ]
-    filterset_fields = ["store","product","product__category"]
+    filterset_fields = ["collection","store","product","product__category"]
     ordering_fields = "__all__"
     http_method_names = ["get", "post", "head", "patch", "delete"]
     permission_classes = [ModelPermission]
