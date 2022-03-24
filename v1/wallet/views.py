@@ -94,6 +94,7 @@ class CustomerWalletViewSet(
             "amount": validate_data.get("balance_amount"),
         }
         transaction = Transaction.objects.create(**transaction_data)
+        transaction.refresh_from_db()
 
         ##### Create payment
         paymet_data = {
