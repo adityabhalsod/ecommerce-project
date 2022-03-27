@@ -231,7 +231,7 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.AcceptHeaderVersioning",
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "DEFAULT_PAGINATION_CLASS": "base.pagination.Pagination",
     "EXCEPTION_HANDLER": "base.exceptions.exception_handler",
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
     "PAGE_SIZE": 10,
