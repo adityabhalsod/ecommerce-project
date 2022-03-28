@@ -14,8 +14,8 @@ from v1.delivery.models import (
 @admin.register(DeliveryBoy)
 class DeliveryBoyAdmin(BaseAdmin):
     list_filter = (
-        "is_approve",
         "status",
+        "current_status",
         "store__store_number",
         "store__store_name",
         "store__city",
@@ -39,7 +39,7 @@ class DeliveryBoyAdmin(BaseAdmin):
     list_display = (
         "pk",
         username,
-        "status",
+        "current_status",
         "payout_balance",
     )
 
@@ -67,14 +67,14 @@ class DeliveryBoyVehicleInformationAdmin(BaseAdmin):
     list_filter = (
         "vehicle_type",
         "delivery_boy__store__store_name",
-        "delivery_boy__is_approve",
         "delivery_boy__status",
+        "delivery_boy__current_status",
     )
     search_fields = (
         "vehicle_type",
         "delivery_boy__user__username",
         "delivery_boy__store__store_name",
-        "delivery_boy__status",
+        "delivery_boy__current_status",
         "vehicle_number",
     )
 
@@ -111,14 +111,14 @@ class DeliveryBoyDocumentAdmin(BaseAdmin):
     list_filter = (
         "document_type",
         "delivery_boy__store__store_name",
+        "delivery_boy__current_status",
         "delivery_boy__status",
-        "delivery_boy__is_approve",
         "status",
     )
     search_fields = (
         "delivery_boy__user__username",
         "delivery_boy__store__store_name",
-        "delivery_boy__status",
+        "delivery_boy__current_status",
         "document_id_number",
     )
 
@@ -157,13 +157,13 @@ class DeliveryBoyReviewAdmin(BaseAdmin):
     list_filter = (
         "rating",
         "delivery_boy__store__store_name",
-        "delivery_boy__is_approve",
         "delivery_boy__status",
+        "delivery_boy__current_status",
     )
     search_fields = (
         "delivery_boy__user__username",
         "delivery_boy__store__store_name",
-        "delivery_boy__status",
+        "delivery_boy__current_status",
         "author__username",
     )
 
@@ -207,13 +207,13 @@ class DeliveryBoyReviewAdmin(BaseAdmin):
 class DeliveryBoyPayoutInformationAdmin(BaseAdmin):
     list_filter = (
         "delivery_boy__store__store_name",
-        "delivery_boy__is_approve",
         "delivery_boy__status",
+        "delivery_boy__current_status",
     )
     search_fields = (
         "delivery_boy__user__username",
         "delivery_boy__store__store_name",
-        "delivery_boy__status",
+        "delivery_boy__current_status",
         "bank_account_ifsc_code",
         "bank_account_number",
         "bank_account_name",

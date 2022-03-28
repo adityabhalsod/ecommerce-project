@@ -160,7 +160,7 @@ class OrderViewSet(
                     delivery_boy = DeliveryBoy.objects.get(
                         user=self.request.user, is_approve=True, is_deleted=False
                     )
-                    if delivery_boy.status in [
+                    if delivery_boy.current_status in [
                         DeliveryBoyStatus.READY_FOR_ORDER_PICKED_UP,
                         DeliveryBoyStatus.ONLINE,
                     ]:

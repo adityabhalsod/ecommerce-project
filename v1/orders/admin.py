@@ -13,7 +13,7 @@ class OrderAdmin(BaseAdmin):
         "store__store_number",
         "store__store_name",
         "delivery_boy__store__store_name",
-        "delivery_boy__status",
+        "delivery_boy__current_status",
         "order_status",
         "order_type",
         "payment_status",
@@ -26,7 +26,7 @@ class OrderAdmin(BaseAdmin):
         "store__store_number",
         "store__store_name",
         "delivery_boy__store__store_name",
-        "delivery_boy__status",
+        "delivery_boy__current_status",
         "order_number",
         "dropzone",
     )

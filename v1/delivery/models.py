@@ -30,12 +30,16 @@ class DeliveryBoy(BaseModel):
         on_delete=models.CASCADE,
         related_name="delivery_boy_store",
     )
-    is_approve = models.BooleanField(default=False)
     payout_balance = models.FloatField(default=0.0, null=True, blank=True)
-    status = models.CharField(
+    current_status = models.CharField(
         max_length=255,
         choices=DeliveryBoyStatus.choices,
         default=DeliveryBoyStatus.OFFLINE,
+    )
+    status = models.CharField(
+        max_length=255,
+        choices=Status.choices,
+        default=Status.PENDING,
     )
     bank_account_ifsc_code = models.CharField(max_length=50, default="")
     bank_account_number = models.CharField(max_length=50, default="")
