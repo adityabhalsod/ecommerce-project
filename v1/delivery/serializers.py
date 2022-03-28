@@ -41,7 +41,6 @@ class DeliveryBoyCRUDSerializer(BaseSerializer):
         fields = "__all__"
         read_only_fields = (
             "user",
-            "is_approve",
             "status",
             "payout_balance",
         )

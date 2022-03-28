@@ -2,7 +2,7 @@ from base.permission import AdminPermission, ModelPermission
 from django_filters import rest_framework as filters
 from rest_framework import filters as rest_filters
 from rest_framework import mixins, viewsets
-from v1.delivery.choice import DeliveryBoyStatus
+from v1.delivery.choice import DeliveryBoyStatus, Status
 from v1.delivery.models import (
     DeliveryBoy,
     DeliveryBoyDocument,
@@ -36,8 +36,8 @@ class DeliveryViewSet(viewsets.ModelViewSet):
         rest_filters.SearchFilter,
         rest_filters.OrderingFilter,
     ]
-    filterset_fields = ["user", "store", "is_approve", "payout_balance", "status"]
-    ordering_fields = ["user", "store", "is_approve", "payout_balance", "status"]
+    filterset_fields = ["user", "store", "current_status", "payout_balance", "status"]
+    ordering_fields = ["user", "store", "current_status", "payout_balance", "status"]
     http_method_names = ["get", "post", "head", "patch", "delete"]
     permission_classes = [ModelPermission]
 
@@ -158,7 +158,7 @@ class OrderViewSet(
             if self.request.user.is_online:
                 try:
                     delivery_boy = DeliveryBoy.objects.get(
-                        user=self.request.user, is_approve=True, is_deleted=False
+                        user=self.request.user, status=Status.APPROVE, is_deleted=False
                     )
                     if delivery_boy.current_status in [
                         DeliveryBoyStatus.READY_FOR_ORDER_PICKED_UP,
