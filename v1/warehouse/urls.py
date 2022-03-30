@@ -12,9 +12,9 @@ router = routers.DefaultRouter()
 
 app_name = "v1.warehouse"
 
+router.register(r"", WarehouseViewSet, basename="warehouse")
 router.register(r"purchase", PurchaseViewSet, basename="purchase")
 router.register(r"stock-transfer", StockTransferViewSet, basename="StockTransfer")
-router.register(r"warehouse", WarehouseViewSet, basename="warehouse")
 router.register(r"supplier", SupplierViewSet, basename="supplier")
 router.register(
     r"store-stock-management",
