@@ -100,9 +100,9 @@ class WarehouseViewSet(viewsets.ModelViewSet):
         rest_filters.SearchFilter,
         rest_filters.OrderingFilter,
     ]
-    filterset_fields = "__all__"
-    ordering_fields = "__all__"
-    search_fields = "__all__"
+    filterset_fields = ["name","city","state","country","pin_code","address"]
+    ordering_fields = ["name","city","state","country","pin_code","address"]
+    search_fields = ["name","city","state","country","pin_code","address"]
     http_method_names = ["get", "post", "head", "patch", "delete"]
     permission_classes = [ModelPermission]
 
