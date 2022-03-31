@@ -30,7 +30,6 @@ actions.add_to_site(site)
 # from django_otp.admin import OTPAdminSite
 # admin.site.__class__ = OTPAdminSite
 
-prefix = "api/v1"
 
 urlpatterns = (
     [
@@ -38,26 +37,22 @@ urlpatterns = (
         path("quickly/super-admin/postgres-metrics/", include("postgres_metrics.urls")),
         path("quickly/super-admin/adminactions/", include("adminactions.urls")),
         path("ckeditor/", include("ckeditor_uploader.urls")),
-        path(prefix + "/account/", include("account.urls", namespace="account")),
-        path(prefix + "/catelog/", include("v1.catalog.urls", namespace="catalog")),
-        path(prefix + "/cart/", include("v1.cart.urls", namespace="cart")),
-        path(prefix + "/delivery/", include("v1.delivery.urls", namespace="delivery")),
-        path(prefix + "/group/", include("v1.group.urls", namespace="group")),
+        path("api/v1/account/", include("account.urls", namespace="account")),
+        path("api/v1/catelog/", include("v1.catalog.urls", namespace="catalog")),
+        path("api/v1/cart/", include("v1.cart.urls", namespace="cart")),
+        path("api/v1/delivery/", include("v1.delivery.urls", namespace="delivery")),
+        path("api/v1/group/", include("v1.group.urls", namespace="group")),
         path(
-            prefix + "/membership/",
+            "api/v1/membership/",
             include("v1.membership.urls", namespace="membership"),
         ),
-        path(prefix + "/store/", include("v1.store.urls", namespace="store")),
-        path(prefix + "/order/", include("v1.orders.urls", namespace="order")),
-        path(prefix + "/payment/", include("v1.payment.urls", namespace="payment")),
-        path(prefix + "/package/", include("v1.package.urls", namespace="package")),
-        path(
-            prefix + "/promotion/", include("v1.promotion.urls", namespace="promotion")
-        ),
-        path(
-            prefix + "/warehouse/", include("v1.warehouse.urls", namespace="warehouse")
-        ),
-        path(prefix + "/wallet/", include("v1.wallet.urls", namespace="wallet")),
+        path("api/v1/store/", include("v1.store.urls", namespace="store")),
+        path("api/v1/order/", include("v1.orders.urls", namespace="order")),
+        path("api/v1/payment/", include("v1.payment.urls", namespace="payment")),
+        path("api/v1/package/", include("v1.package.urls", namespace="package")),
+        path("api/v1/promotion/", include("v1.promotion.urls", namespace="promotion")),
+        path("api/v1/warehouse/", include("v1.warehouse.urls", namespace="warehouse")),
+        path("api/v1/wallet/", include("v1.wallet.urls", namespace="wallet")),
         path(
             "robots.txt",
             TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
@@ -69,5 +64,4 @@ urlpatterns = (
 )
 
 
-
-# path(prefix + "/reason/", include("v1.reason.urls", namespace="reason")),
+# path("api/v1/reason/", include("v1.reason.urls", namespace="reason")),
