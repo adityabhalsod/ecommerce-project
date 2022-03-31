@@ -5,13 +5,10 @@ from account.forms import PermissionModelForm
 
 from account.models import (
     Address,
-    BannedIP,
-    UntrackedUserAgent,
     User,
     UserEmail,
     UserMobileNumber,
     UserPhotos,
-    Visitor,
 )
 from base.admin import BaseAdmin, BaseModelAdmin
 
@@ -166,21 +163,28 @@ class GroupAdmin(admin.ModelAdmin):
     filter_horizontal = ["permissions"]
 
 
-@admin.register(BannedIP)
-class BannedIPAdmin(BaseAdmin):
-    search_fields = ("ip_address",)
+
+# from account.models import (
+#     BannedIP,
+#     UntrackedUserAgent,
+#     Visitor,
+# )
+
+# @admin.register(BannedIP)
+# class BannedIPAdmin(BaseAdmin):
+#     search_fields = ("ip_address",)
 
 
-@admin.register(UntrackedUserAgent)
-class UntrackedUserAgentAdmin(BaseAdmin):
-    search_fields = ("keyword",)
+# @admin.register(UntrackedUserAgent)
+# class UntrackedUserAgentAdmin(BaseAdmin):
+#     search_fields = ("keyword",)
 
 
-@admin.register(Visitor)
-class VisitorAdmin(BaseAdmin):
-    list_filter = (
-        "user",
-        "is_deleted",
-        "user_agent",
-    )
-    search_fields = ("ip_address", "user", "user_agent", "url")
+# @admin.register(Visitor)
+# class VisitorAdmin(BaseAdmin):
+#     list_filter = (
+#         "user",
+#         "is_deleted",
+#         "user_agent",
+#     )
+#     search_fields = ("ip_address", "user", "user_agent", "url")
