@@ -104,10 +104,10 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "base.middleware.ExceptionMiddleware",
-    "account.middleware.VisitorTrackingMiddleware",
-    "account.middleware.VisitorCleanUpMiddleware",
-    "account.middleware.BannedIPMiddleware",
-    "base.middleware.LoggingMiddleware",
+    # "account.middleware.VisitorTrackingMiddleware",
+    # "account.middleware.VisitorCleanUpMiddleware",
+    # "account.middleware.BannedIPMiddleware",
+    # "base.middleware.LoggingMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
