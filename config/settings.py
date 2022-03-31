@@ -62,15 +62,15 @@ PROJECT_APPS = [
     "emailtemplate",
     "group",
     "membership",
-    "logs",
     "orders",
     "promotion",
     "payment",
     "package",
-    "reason",
     "store",
     "warehouse",
     "wallet",
+    # "reason",
+    # "logs",
 ]
 
 # 3rd party app

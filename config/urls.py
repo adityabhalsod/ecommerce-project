@@ -48,7 +48,6 @@ urlpatterns = (
             include("v1.membership.urls", namespace="membership"),
         ),
         path(prefix + "/store/", include("v1.store.urls", namespace="store")),
-        path(prefix + "/reason/", include("v1.reason.urls", namespace="reason")),
         path(prefix + "/order/", include("v1.orders.urls", namespace="order")),
         path(prefix + "/payment/", include("v1.payment.urls", namespace="payment")),
         path(prefix + "/package/", include("v1.package.urls", namespace="package")),
@@ -68,3 +67,7 @@ urlpatterns = (
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     + documentation_url
 )
+
+
+
+# path(prefix + "/reason/", include("v1.reason.urls", namespace="reason")),
