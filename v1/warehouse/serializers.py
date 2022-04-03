@@ -32,22 +32,13 @@ class SupplierCRUDSerializer(BaseSerializer):
 
 
 class PurchaseMultiItemCRUDSerializer(BaseSerializer):
-    product_and_variation = VariationCRUDSerializer(read_only=True, required=False)
-    product_and_variation_id = serializers.SlugRelatedField(
-        required=True,
-        slug_field="id",
-        queryset=Variation.objects.exclude(is_deleted=True),
-        source="product_and_variation",
-        write_only=True,
-    )
-
     class Meta:
         model = PurchaseMultiItem
         fields = "__all__"
 
 
 class PurchaseCRUDSerializer(BaseSerializer):
-    multiple_item = PurchaseMultiItemCRUDSerializer(required=False)
+    multiple_item = PurchaseMultiItemCRUDSerializer(required=False, many=True)
     multiple_item_ids = serializers.SlugRelatedField(
         required=False,
         many=True,
