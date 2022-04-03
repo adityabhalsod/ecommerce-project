@@ -56,8 +56,6 @@ class Purchase(BaseModel):
         blank=True,
         null=True,
     )
-    total_items = models.IntegerField(default=0, null=True, blank=True)
-    sub_total = models.FloatField(default=0.0, null=True, blank=True)
     additional_shipping_charges = models.FloatField(default=0.0, null=True, blank=True)
     additional_notes = models.TextField(default="", null=True, blank=True)
     discount_type = models.CharField(
@@ -73,6 +71,10 @@ class Purchase(BaseModel):
         choices=ProductTaxType.choices,
     )
     discount = models.FloatField(default=0.0, null=True, blank=True)
+
+    # auto calculation
+    total_items = models.IntegerField(default=0, null=True, blank=True)
+    sub_total = models.FloatField(default=0.0, null=True, blank=True)
     purchase_total = models.FloatField(default=0.0, null=True, blank=True)
 
     def __str__(self):
