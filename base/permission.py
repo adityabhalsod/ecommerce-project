@@ -29,6 +29,7 @@ class JSONWebTokenAuthentication(BaseAuthentication):
         supplied using JWT-based authentication.  Otherwise returns `None`.
         """
         jwt_value = self.get_jwt_value(request)
+
         if not jwt_value:
             msg = _("JWT token are not found!.")
             raise exceptions.AuthenticationFailed(msg)

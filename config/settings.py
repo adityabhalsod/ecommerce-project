@@ -69,8 +69,6 @@ PROJECT_APPS = [
     "store",
     "warehouse",
     "wallet",
-    # "reason",
-    # "logs",
 ]
 
 # 3rd party app
@@ -103,11 +101,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "base.middleware.ExceptionMiddleware",
-    # "account.middleware.VisitorTrackingMiddleware",
-    # "account.middleware.VisitorCleanUpMiddleware",
-    # "account.middleware.BannedIPMiddleware",
-    # "base.middleware.LoggingMiddleware",
+    "base.middleware.ExceptionMiddleware"
 ]
 
 ROOT_URLCONF = "config.urls"
