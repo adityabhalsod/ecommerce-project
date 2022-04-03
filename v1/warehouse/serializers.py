@@ -38,7 +38,8 @@ class PurchaseMultiItemCRUDSerializer(BaseSerializer):
 class PurchaseCRUDSerializer(BaseSerializer):
     item_supplier_object = serializers.SerializerMethodField(read_only=True)
     warehouse_object = serializers.SerializerMethodField(read_only=True)
-    multiple_item = PurchaseMultiItemCRUDSerializer(required=False, many=True)
+    multiple_item_object = serializers.SerializerMethodField(read_only=True)
+    # multiple_item = PurchaseMultiItemCRUDSerializer(required=False)
     attach_document = Base64FileField(required=False)
 
     class Meta:
@@ -54,12 +55,18 @@ class PurchaseCRUDSerializer(BaseSerializer):
         if not obj.warehouse:
             return {}
         return WarehouseCRUDSerializer(obj.warehouse).data
+    
+    def get_multiple_item_object(self, obj):
+        if not obj.warehouse:
+            return []
+        return PurchaseMultiItemCRUDSerializer(many=True)
 
 
 class StockTransferMultiItemCRUDSerializer(BaseSerializer):
     product_and_variation_object = serializers.SerializerMethodField(read_only=True)
     warehouse_object = serializers.SerializerMethodField(read_only=True)
     store_object = serializers.SerializerMethodField(read_only=True)
+    
 
     class Meta:
         model = StockTransferMultiItem
@@ -76,13 +83,14 @@ class StockTransferMultiItemCRUDSerializer(BaseSerializer):
         return WarehouseCRUDSerializer(obj.warehouse).data
 
     def get_store_object(self, obj):
-        if not obj.store:
-            return {}
-        return StoreExcloudGeoLocationSerializer(obj.store).data
+        if not obj.multiple_item.all():
+            return []
+        return StoreExcloudGeoLocationSerializer(obj.multiple_item.all(), many=True).data
 
+   
 
 class StockTransferCRUDSerializer(BaseSerializer):
-    multiple_item = StockTransferMultiItemCRUDSerializer(required=False)
+    # multiple_item = StockTransferMultiItemCRUDSerializer(required=False)
     store_object = StoreExcloudGeoLocationSerializer(read_only=True)
     product_and_variation_object = serializers.SerializerMethodField(read_only=True)
 
