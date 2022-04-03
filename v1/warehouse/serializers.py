@@ -68,7 +68,7 @@ class StockTransferMultiItemCRUDSerializer(BaseSerializer):
     def get_product_and_variation_object(self, obj):
         if not obj.product_and_variation:
             return {}
-        return SupplierCRUDSerializer(obj.product_and_variation).data
+        return VariationCRUDSerializer(obj.product_and_variation).data
 
     def get_warehouse_object(self, obj):
         if not obj.warehouse:
@@ -103,19 +103,58 @@ class StockTransferCRUDSerializer(BaseSerializer):
         if not obj.store:
             return {}
         return StoreExcloudGeoLocationSerializer(obj.store).data
-    
+
     def get_product_and_variation_object(self, obj):
         if not obj.product_and_variation:
             return {}
-        return SupplierCRUDSerializer(obj.product_and_variation).data
+        return VariationCRUDSerializer(obj.product_and_variation).data
+
 
 class WarehouseStockManagementCRUDSerializer(BaseSerializer):
+    product_and_variation_object = serializers.SerializerMethodField(read_only=True)
+    warehouse_object = serializers.SerializerMethodField(read_only=True)
+    purchase_reference_object = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = WarehouseStockManagement
         fields = "__all__"
 
+    def get_product_and_variation_object(self, obj):
+        if not obj.product_and_variation:
+            return {}
+        return VariationCRUDSerializer(obj.product_and_variation).data
+
+    def get_warehouse_object(self, obj):
+        if not obj.warehouse:
+            return {}
+        return WarehouseCRUDSerializer(obj.warehouse).data
+
+    def get_purchase_reference_object(self, obj):
+        if not obj.purchase_reference:
+            return {}
+        return PurchaseCRUDSerializer(obj.purchase_reference).data
+
 
 class StoreStockManagementCRUDSerializer(BaseSerializer):
+    product_and_variation_object = serializers.SerializerMethodField(read_only=True)
+    store_object = serializers.SerializerMethodField(read_only=True)
+    transfer_reference_object = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = StoreStockManagement
         fields = "__all__"
+
+    def get_product_and_variation_object(self, obj):
+        if not obj.product_and_variation:
+            return {}
+        return VariationCRUDSerializer(obj.product_and_variation).data
+
+    def get_store_object(self, obj):
+        if not obj.store:
+            return {}
+        return StoreExcloudGeoLocationSerializer(obj.store).data
+
+    def get_transfer_reference_object(self, obj):
+        if not obj.transfer_reference:
+            return {}
+        return StockTransferCRUDSerializer(obj.transfer_reference).data
