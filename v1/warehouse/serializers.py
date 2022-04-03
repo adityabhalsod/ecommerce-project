@@ -45,15 +45,6 @@ class PurchaseCRUDSerializer(BaseSerializer):
 
 
 class StockTransferMultiItemCRUDSerializer(BaseSerializer):
-    product_and_variation = VariationCRUDSerializer(read_only=True, required=False)
-    product_and_variation_id = serializers.SlugRelatedField(
-        required=True,
-        slug_field="id",
-        queryset=Variation.objects.exclude(is_deleted=True),
-        source="product_and_variation",
-        write_only=True,
-    )
-
     class Meta:
         model = StockTransferMultiItem
         fields = "__all__"
