@@ -21,7 +21,7 @@ from v1.warehouse.models import (
 
 
 class PurchaseViewSet(viewsets.ModelViewSet):
-    queryset = Purchase.objects.exclude(is_deleted=True).order_by("-created_at")
+    queryset = Purchase.objects.exclude(is_deleted=True)
     serializer_class = PurchaseCRUDSerializer
     filter_backends = [
         filters.DjangoFilterBackend,
@@ -78,7 +78,7 @@ class PurchaseViewSet(viewsets.ModelViewSet):
 
 
 class StockTransferViewSet(viewsets.ModelViewSet):
-    queryset = StockTransfer.objects.exclude(is_deleted=True).order_by("-created_at")
+    queryset = StockTransfer.objects.exclude(is_deleted=True)
     serializer_class = StockTransferCRUDSerializer
     filter_backends = [
         filters.DjangoFilterBackend,
@@ -93,7 +93,7 @@ class StockTransferViewSet(viewsets.ModelViewSet):
 
 
 class WarehouseViewSet(viewsets.ModelViewSet):
-    queryset = Warehouse.objects.exclude(is_deleted=True).order_by("-created_at")
+    queryset = Warehouse.objects.exclude(is_deleted=True)
     serializer_class = WarehouseCRUDSerializer
     filter_backends = [
         filters.DjangoFilterBackend,
@@ -108,7 +108,7 @@ class WarehouseViewSet(viewsets.ModelViewSet):
 
 
 class SupplierViewSet(viewsets.ModelViewSet):
-    queryset = Supplier.objects.exclude(is_deleted=True).order_by("-created_at")
+    queryset = Supplier.objects.exclude(is_deleted=True)
     serializer_class = SupplierCRUDSerializer
     filter_backends = [
         filters.DjangoFilterBackend,
@@ -123,7 +123,7 @@ class SupplierViewSet(viewsets.ModelViewSet):
 
 
 class WarehouseStockManagementViewSet(viewsets.ModelViewSet):
-    queryset = WarehouseStockManagement.objects.exclude(is_deleted=True).order_by("-created_at")
+    queryset = WarehouseStockManagement.objects.exclude(is_deleted=True)
     serializer_class = WarehouseStockManagementCRUDSerializer
     filter_backends = [
         filters.DjangoFilterBackend,
@@ -141,7 +141,7 @@ class WarehouseStockManagementViewSet(viewsets.ModelViewSet):
 
 
 class StoreStockManagementViewSet(viewsets.ModelViewSet):
-    queryset = StoreStockManagement.objects.exclude(is_deleted=True).order_by("-created_at")
+    queryset = StoreStockManagement.objects.exclude(is_deleted=True)
     serializer_class = StoreStockManagementCRUDSerializer
     filter_backends = [
         filters.DjangoFilterBackend,

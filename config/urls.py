@@ -33,10 +33,6 @@ actions.add_to_site(site)
 
 urlpatterns = (
     [
-        path("quickly/super-admin/", admin.site.urls),
-        path("quickly/super-admin/postgres-metrics/", include("postgres_metrics.urls")),
-        path("quickly/super-admin/adminactions/", include("adminactions.urls")),
-        path("ckeditor/", include("ckeditor_uploader.urls")),
         path("api/v1/account/", include("account.urls", namespace="account")),
         path("api/v1/catelog/", include("v1.catalog.urls", namespace="catalog")),
         path("api/v1/cart/", include("v1.cart.urls", namespace="cart")),
@@ -53,6 +49,10 @@ urlpatterns = (
         path("api/v1/promotion/", include("v1.promotion.urls", namespace="promotion")),
         path("api/v1/warehouse/", include("v1.warehouse.urls", namespace="warehouse")),
         path("api/v1/wallet/", include("v1.wallet.urls", namespace="wallet")),
+        path("ckeditor/", include("ckeditor_uploader.urls")),
+        path("quickly/super-admin/", admin.site.urls),
+        path("quickly/super-admin/postgres-metrics/", include("postgres_metrics.urls")),
+        path("quickly/super-admin/adminactions/", include("adminactions.urls")),
         path(
             "robots.txt",
             TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
