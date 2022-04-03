@@ -39,33 +39,6 @@ class PurchaseMultiItemCRUDSerializer(BaseSerializer):
 
 class PurchaseCRUDSerializer(BaseSerializer):
     multiple_item = PurchaseMultiItemCRUDSerializer(required=False, many=True)
-    multiple_item_ids = serializers.SlugRelatedField(
-        required=False,
-        many=True,
-        slug_field="id",
-        queryset=PurchaseMultiItem.objects.exclude(is_deleted=True),
-        source="multiple_item",
-        write_only=True,
-    )
-
-    item_supplier = SupplierCRUDSerializer(required=False)
-    item_supplier_id = serializers.SlugRelatedField(
-        required=False,
-        slug_field="id",
-        queryset=Supplier.objects.exclude(is_deleted=True),
-        source="item_supplier",
-        write_only=True,
-    )
-
-    warehouse = WarehouseCRUDSerializer(required=False)
-    warehouse_id = serializers.SlugRelatedField(
-        required=False,
-        slug_field="id",
-        queryset=Warehouse.objects.exclude(is_deleted=True),
-        source="warehouse",
-        write_only=True,
-    )
-
     attach_document = Base64FileField(required=False)
 
     class Meta:
