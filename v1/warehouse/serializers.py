@@ -1,9 +1,6 @@
 from drf_extra_fields.fields import Base64FileField
-from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from base.serializers import BaseSerializer
-from v1.catalog.models import Variation
-from v1.catalog.serializers import VariationCRUDSerializer
 
 from .models import (
     Purchase,
