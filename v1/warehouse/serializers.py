@@ -4,8 +4,6 @@ from rest_framework.exceptions import ValidationError
 from base.serializers import BaseSerializer
 from v1.catalog.models import Variation
 from v1.catalog.serializers import VariationCRUDSerializer
-from v1.store.models import Store
-from v1.store.serializers import StoreExcloudGeoLocationSerializer
 
 from .models import (
     Purchase,
@@ -63,30 +61,6 @@ class StockTransferMultiItemCRUDSerializer(BaseSerializer):
 
 class StockTransferCRUDSerializer(BaseSerializer):
     multiple_item = StockTransferMultiItemCRUDSerializer(required=False)
-    multiple_item_ids = serializers.SlugRelatedField(
-        required=False,
-        many=True,
-        slug_field="id",
-        queryset=StockTransferMultiItem.objects.exclude(is_deleted=True),
-        source="multiple_item",
-        write_only=True,
-    )
-    warehouse = WarehouseCRUDSerializer(required=False)
-    warehouse_id = serializers.SlugRelatedField(
-        required=False,
-        slug_field="id",
-        queryset=Warehouse.objects.exclude(is_deleted=True),
-        source="warehouse",
-        write_only=True,
-    )
-    store = StoreExcloudGeoLocationSerializer(read_only=True)
-    store_id = serializers.SlugRelatedField(
-        required=False,
-        slug_field="id",
-        queryset=Store.objects.exclude(is_deleted=True),
-        source="store",
-        write_only=True,
-    )
 
     def validate(self, attrs):
         if attrs.get("store") and attrs.get("warehouse"):
@@ -103,18 +77,12 @@ class StockTransferCRUDSerializer(BaseSerializer):
 
 
 class WarehouseStockManagementCRUDSerializer(BaseSerializer):
-    warehouse = WarehouseCRUDSerializer(read_only=True, required=False)
-    product_and_variation = VariationCRUDSerializer(read_only=True, required=False)
-
     class Meta:
         model = WarehouseStockManagement
         fields = "__all__"
 
 
 class StoreStockManagementCRUDSerializer(BaseSerializer):
-    store = StoreExcloudGeoLocationSerializer(read_only=True, required=False)
-    product_and_variation = VariationCRUDSerializer(read_only=True, required=False)
-
     class Meta:
         model = StoreStockManagement
         fields = "__all__"
