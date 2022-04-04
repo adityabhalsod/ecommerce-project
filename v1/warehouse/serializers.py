@@ -43,11 +43,31 @@ class PurchaseMultiItemCRUDSerializer(BaseSerializer):
         fields = "__all__"
 
 
+class GettingPurchaseMultiItemCRUDSerializer(BaseSerializer):
+    product_and_variation_id = serializers.SlugRelatedField(
+        required=True,
+        slug_field="id",
+        queryset=Variation.objects.exclude(is_deleted=True),
+        source="product_and_variation",
+        write_only=True,
+    )
+    id = serializers.PrimaryKeyRelatedField(
+        required=False,
+        queryset=PurchaseMultiItem.objects.exclude(is_deleted=True),
+    )
+
+    class Meta:
+        model = PurchaseMultiItem
+        fields = "__all__"
+
+
 class PurchaseCRUDSerializer(BaseSerializer):
     item_supplier_object = serializers.SerializerMethodField(read_only=True)
     warehouse_object = serializers.SerializerMethodField(read_only=True)
     multiple_item_object = serializers.SerializerMethodField(read_only=True)
-    multiple_item = PurchaseMultiItemCRUDSerializer(required=False, many=True)
+    multiple_item = GettingPurchaseMultiItemCRUDSerializer(
+        required=False, many=True, write_only=True
+    )
     attach_document = CustomBase64FileField(required=False)
 
     class Meta:
@@ -63,18 +83,58 @@ class PurchaseCRUDSerializer(BaseSerializer):
         if not obj.warehouse:
             return {}
         return WarehouseCRUDSerializer(obj.warehouse).data
-    
+
     def get_multiple_item_object(self, obj):
         if not obj.multiple_item.all():
             return []
         return PurchaseMultiItemCRUDSerializer(obj.multiple_item.all(), many=True).data
+
+    def create(self, validated_data):
+        multiple_item = validated_data.pop("multiple_item", [])
+        purchase = super(PurchaseCRUDSerializer, self).create(validated_data)
+        purchase_ids = []
+        if multiple_item:
+            for item in multiple_item:
+                serializer = PurchaseMultiItemCRUDSerializer(data=item)
+                if serializer.is_valid(raise_exception=True):
+                    save_item = serializer.save()
+                    purchase_ids.append(save_item.pk)
+            purchase.multiple_item.set(purchase_ids)
+        return purchase
+
+    def update(self, instance, validated_data):
+        multiple_item = validated_data.pop("multiple_item", [])
+        purchase = super(PurchaseCRUDSerializer, self).update(instance, validated_data)
+        purchase_ids = []
+        if multiple_item:
+            for item in multiple_item:
+                item_instance = None
+
+                if item.get("id"):
+                    item_instance = item.pop("id", None)
+
+                if item_instance:
+                    serializer = PurchaseMultiItemCRUDSerializer(data=item)
+                    if serializer.is_valid(raise_exception=True):
+                        save_item = serializer.update(
+                            instance=item_instance,
+                            validated_data=item,
+                        )
+                        purchase_ids.append(save_item.pk)
+                else:
+                    serializer = PurchaseMultiItemCRUDSerializer(data=item)
+                    if serializer.is_valid(raise_exception=True):
+                        save_item = serializer.save()
+                        purchase_ids.append(save_item.pk)
+
+        purchase.multiple_item.set(purchase_ids)
+        return purchase
 
 
 class StockTransferMultiItemCRUDSerializer(BaseSerializer):
     product_and_variation_object = serializers.SerializerMethodField(read_only=True)
     warehouse_object = serializers.SerializerMethodField(read_only=True)
     store_object = serializers.SerializerMethodField(read_only=True)
-    
 
     class Meta:
         model = StockTransferMultiItem
@@ -93,9 +153,10 @@ class StockTransferMultiItemCRUDSerializer(BaseSerializer):
     def get_store_object(self, obj):
         if not obj.multiple_item.all():
             return []
-        return StoreExcloudGeoLocationSerializer(obj.multiple_item.all(), many=True).data
+        return StoreExcloudGeoLocationSerializer(
+            obj.multiple_item.all(), many=True
+        ).data
 
-   
 
 class StockTransferCRUDSerializer(BaseSerializer):
     # multiple_item = StockTransferMultiItemCRUDSerializer(required=False)
