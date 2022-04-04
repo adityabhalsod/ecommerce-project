@@ -1,6 +1,5 @@
-from drf_extra_fields.fields import Base64FileField
 from rest_framework.exceptions import ValidationError
-from base.serializers import BaseSerializer
+from base.serializers import BaseSerializer, CustomBase64FileField
 from v1.catalog.serializers import VariationCRUDSerializer
 from v1.store.serializers import StoreExcloudGeoLocationSerializer
 from rest_framework import serializers
@@ -49,7 +48,7 @@ class PurchaseCRUDSerializer(BaseSerializer):
     warehouse_object = serializers.SerializerMethodField(read_only=True)
     multiple_item_object = serializers.SerializerMethodField(read_only=True)
     multiple_item = PurchaseMultiItemCRUDSerializer(required=False)
-    attach_document = Base64FileField(required=False)
+    attach_document = CustomBase64FileField(required=False, write_only=True, )
 
     class Meta:
         model = Purchase
