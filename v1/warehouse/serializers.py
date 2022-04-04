@@ -68,7 +68,7 @@ class PurchaseCRUDSerializer(BaseSerializer):
     def get_multiple_item_object(self, obj):
         if not obj.multiple_item.all():
             return []
-        return PurchaseMultiItemCRUDSerializer(obj.multiple_item.all(), many=True)
+        return PurchaseMultiItemCRUDSerializer(obj.multiple_item.all(), many=True).data
 
 
 class StockTransferMultiItemCRUDSerializer(BaseSerializer):
