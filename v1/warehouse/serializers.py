@@ -44,13 +44,6 @@ class PurchaseMultiItemCRUDSerializer(BaseSerializer):
 
 
 class GettingPurchaseMultiItemCRUDSerializer(BaseSerializer):
-    product_and_variation_id = serializers.SlugRelatedField(
-        required=True,
-        slug_field="id",
-        queryset=Variation.objects.exclude(is_deleted=True),
-        source="product_and_variation",
-        write_only=True,
-    )
     id = serializers.PrimaryKeyRelatedField(
         required=False,
         queryset=PurchaseMultiItem.objects.exclude(is_deleted=True),
