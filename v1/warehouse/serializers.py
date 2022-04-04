@@ -1,9 +1,9 @@
-from rest_framework.exceptions import ValidationError
 from base.serializers import BaseSerializer, CustomBase64FileField
+from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from v1.catalog.serializers import VariationCRUDSerializer
 from v1.store.serializers import StoreExcloudGeoLocationSerializer
-from rest_framework import serializers
-from v1.catalog.models import Variation
+from v1.warehouse.tasks import stock_purchase
 
 from .models import (
     Purchase,
@@ -42,7 +42,7 @@ class GettingPurchaseMultiItemCRUDSerializer(BaseSerializer):
     )
     product_and_variation_id = serializers.SerializerMethodField(read_only=True)
     product_and_variation = serializers.IntegerField(write_only=True)
-    
+
     class Meta:
         model = PurchaseMultiItem
         fields = [
@@ -100,6 +100,7 @@ class PurchaseCRUDSerializer(BaseSerializer):
                     purchase_ids.append(save_item.pk)
             purchase.multiple_item.set(purchase_ids)
             purchase.save()
+            stock_purchase.delay(purchase)
         return purchase
 
     def update(self, instance, validated_data):
@@ -129,6 +130,7 @@ class PurchaseCRUDSerializer(BaseSerializer):
 
             purchase.multiple_item.set(purchase_ids)
             purchase.save()
+            stock_purchase.delay(purchase)
         return purchase
 
 
