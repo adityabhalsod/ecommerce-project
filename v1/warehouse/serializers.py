@@ -47,8 +47,8 @@ class PurchaseCRUDSerializer(BaseSerializer):
     item_supplier_object = serializers.SerializerMethodField(read_only=True)
     warehouse_object = serializers.SerializerMethodField(read_only=True)
     multiple_item_object = serializers.SerializerMethodField(read_only=True)
-    multiple_item = PurchaseMultiItemCRUDSerializer(required=False)
-    attach_document = CustomBase64FileField(required=False, write_only=True, )
+    multiple_item = PurchaseMultiItemCRUDSerializer(required=False, many=True)
+    attach_document = CustomBase64FileField(required=False)
 
     class Meta:
         model = Purchase
