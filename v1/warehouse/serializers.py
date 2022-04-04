@@ -4,6 +4,7 @@ from base.serializers import BaseSerializer
 from v1.catalog.serializers import VariationCRUDSerializer
 from v1.store.serializers import StoreExcloudGeoLocationSerializer
 from rest_framework import serializers
+from v1.catalog.models import Variation
 
 from .models import (
     Purchase,
@@ -30,6 +31,14 @@ class SupplierCRUDSerializer(BaseSerializer):
 
 
 class PurchaseMultiItemCRUDSerializer(BaseSerializer):
+    product_and_variation_id = serializers.SlugRelatedField(
+        required=True,
+        slug_field="id",
+        queryset=Variation.objects.exclude(is_deleted=True),
+        source="product_and_variation",
+        write_only=True,
+    )
+
     class Meta:
         model = PurchaseMultiItem
         fields = "__all__"
@@ -39,7 +48,7 @@ class PurchaseCRUDSerializer(BaseSerializer):
     item_supplier_object = serializers.SerializerMethodField(read_only=True)
     warehouse_object = serializers.SerializerMethodField(read_only=True)
     multiple_item_object = serializers.SerializerMethodField(read_only=True)
-    # multiple_item = PurchaseMultiItemCRUDSerializer(required=False)
+    multiple_item = PurchaseMultiItemCRUDSerializer(required=False)
     attach_document = Base64FileField(required=False)
 
     class Meta:
@@ -57,9 +66,9 @@ class PurchaseCRUDSerializer(BaseSerializer):
         return WarehouseCRUDSerializer(obj.warehouse).data
     
     def get_multiple_item_object(self, obj):
-        if not obj.warehouse:
+        if not obj.multiple_item.all():
             return []
-        return PurchaseMultiItemCRUDSerializer(many=True)
+        return PurchaseMultiItemCRUDSerializer(obj.multiple_item.all(), many=True)
 
 
 class StockTransferMultiItemCRUDSerializer(BaseSerializer):

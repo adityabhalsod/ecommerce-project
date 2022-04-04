@@ -5,7 +5,6 @@ from rest_framework.exceptions import ValidationError
 from account.choice import SystemDefaultGroup
 from account.serializers import ProfileSerializer
 from base.serializers import BaseSerializer
-from base.utils import get_iso8601_time
 from v1.cart.calculation import get_delivery_charge, item_price_set
 from v1.cart.choice import OrderType
 from v1.catalog.models import Variation

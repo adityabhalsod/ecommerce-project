@@ -3,7 +3,6 @@ from django.utils import timezone
 from base import file_dir
 from base.models import BaseModel
 from v1.warehouse.choice import ProductTaxType, DiscountType
-from v1.warehouse.tasks import stock_purchase, stock_transfer
 
 
 class Warehouse(BaseModel):
