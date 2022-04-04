@@ -40,10 +40,24 @@ class GettingPurchaseMultiItemCRUDSerializer(BaseSerializer):
         required=False,
         queryset=PurchaseMultiItem.objects.exclude(is_deleted=True),
     )
-
+    product_and_variation_id = serializers.SerializerMethodField(read_only=True)
+    product_and_variation = serializers.IntegerField(write_only=True)
+    
     class Meta:
         model = PurchaseMultiItem
-        fields = "__all__"
+        fields = [
+            "id",
+            "product_and_variation",
+            "product_and_variation_id",
+            "quantity",
+            "unit_cost",
+            "price",
+        ]
+
+    def get_product_and_variation_id(self, obj):
+        if not obj.product_and_variation:
+            return None
+        return int(obj.product_and_variation.pk)
 
 
 class PurchaseCRUDSerializer(BaseSerializer):
@@ -85,6 +99,7 @@ class PurchaseCRUDSerializer(BaseSerializer):
                     save_item = serializer.save()
                     purchase_ids.append(save_item.pk)
             purchase.multiple_item.set(purchase_ids)
+            purchase.save()
         return purchase
 
     def update(self, instance, validated_data):
@@ -112,7 +127,8 @@ class PurchaseCRUDSerializer(BaseSerializer):
                         save_item = serializer.save()
                         purchase_ids.append(save_item.pk)
 
-        purchase.multiple_item.set(purchase_ids)
+            purchase.multiple_item.set(purchase_ids)
+            purchase.save()
         return purchase
 
 
