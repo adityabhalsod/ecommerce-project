@@ -101,7 +101,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "base.middleware.ExceptionMiddleware"
+    "base.middleware.ExceptionMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -167,13 +167,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Kolkata"
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -229,6 +229,7 @@ REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "base.exceptions.exception_handler",
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
     "PAGE_SIZE": 10,
+    "DATETIME_FORMAT": "%d-%m-%Y %H:%M:%p",
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -298,3 +299,5 @@ SWAGGER_SETTINGS = {
     "DEFAULT_MODEL_RENDERING": "model",
     "DISPLAY_OPERATION_ID": False,
 }
+
+DATETIME_FORMAT = "d-m-Y g:i:A"
