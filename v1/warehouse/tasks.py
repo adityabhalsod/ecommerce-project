@@ -6,6 +6,7 @@ from v1.warehouse.choice import DiscountType
 
 @app.task
 def stock_purchase(instance):
+    time.sleep(5)
     if instance:
         # Sub total
         if instance.multiple_item and instance.multiple_item.all():
@@ -56,6 +57,8 @@ def stock_purchase(instance):
                 stock.warehouse = instance.warehouse
                 stock.quantity = item.quantity
                 stock.save()
+    
+    instance.save()
     return True
 
 
@@ -92,4 +95,6 @@ def stock_transfer(instance):
                         stock.quantity = int(stock.quantity) - int(item.quantity)
                         stock.save()
                     ################ warehouse decrease stock ################
+    
+    instance.save()
     return True
