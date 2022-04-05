@@ -3,18 +3,15 @@ version: '3'
 services:
   redisapp:
     restart: always
-    build:
-      context: .
-      dockerfile: ./docker/redis/dockerfile
-    command: redis-server --save 20 1 --loglevel warning
-    user: root
+    image: redis:5.0.4-alpine
+    command: ["redis-server", "--appendonly", "yes"]
     hostname: redis
     networks:
      - app-network
+    volumes:
+      - redis-data:/data
     ports:
-      - "6379:6379"
-    expose:
-      - 6379
+      - "6380:6379"
 
   django:
     build:
