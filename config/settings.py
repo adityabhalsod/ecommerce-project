@@ -229,7 +229,7 @@ REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "base.exceptions.exception_handler",
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
     "PAGE_SIZE": 10,
-    "DATETIME_FORMAT": "%d-%m-%Y %H:%M:%p",
+    "DATETIME_FORMAT": "%d-%m-%Y %I:%M:%p",
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
