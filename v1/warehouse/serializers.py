@@ -4,6 +4,7 @@ from rest_framework.exceptions import ValidationError
 from v1.catalog.serializers import VariationCRUDSerializer
 from v1.store.serializers import StoreExcloudGeoLocationSerializer
 from v1.warehouse.tasks import stock_purchase
+from v1.catalog.models import Variation
 
 from .models import (
     Purchase,
@@ -41,7 +42,10 @@ class GettingPurchaseMultiItemCRUDSerializer(BaseSerializer):
         queryset=PurchaseMultiItem.objects.exclude(is_deleted=True),
     )
     product_and_variation_id = serializers.SerializerMethodField(read_only=True)
-    product_and_variation = serializers.IntegerField(write_only=True)
+    product_and_variation = serializers.PrimaryKeyRelatedField(
+        required=False,
+        queryset=Variation.objects.exclude(is_deleted=True),
+    )
 
     class Meta:
         model = PurchaseMultiItem
