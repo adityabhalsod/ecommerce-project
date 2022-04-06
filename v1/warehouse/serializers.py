@@ -42,9 +42,11 @@ class GettingPurchaseMultiItemCRUDSerializer(BaseSerializer):
         queryset=PurchaseMultiItem.objects.exclude(is_deleted=True),
     )
 
-    product_and_variation = serializers.PrimaryKeyRelatedField(
+    product_and_variation = serializers.SlugRelatedField(
         required=False,
-        queryset=Variation.objects.exclude(is_deleted=True),
+        slug_field="id",
+        queryset=Variation.objects.all(),
+        write_only=True,
     )
 
     class Meta:
@@ -108,12 +110,13 @@ class PurchaseCRUDSerializer(BaseSerializer):
         if multiple_item:
             for item in multiple_item:
                 item_instance = None
-
+                product_and_variation = item.pop("product_and_variation", None)
+                
                 if item.get("id"):
                     item_instance = item.pop("id", None)
-                    product_and_variation = item.pop("product_and_variation", None)
+                else:
                     if product_and_variation:
-                        item["product_and_variation"] = product_and_variation
+                        item["product_and_variation"] = product_and_variation.pk
 
                 if item_instance:
                     serializer = PurchaseMultiItemCRUDSerializer(data=item)
