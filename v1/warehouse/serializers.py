@@ -41,7 +41,7 @@ class GettingPurchaseMultiItemCRUDSerializer(BaseSerializer):
         required=False,
         queryset=PurchaseMultiItem.objects.exclude(is_deleted=True),
     )
-    product_and_variation_id = serializers.SerializerMethodField(read_only=True)
+
     product_and_variation = serializers.PrimaryKeyRelatedField(
         required=False,
         queryset=Variation.objects.exclude(is_deleted=True),
@@ -52,16 +52,10 @@ class GettingPurchaseMultiItemCRUDSerializer(BaseSerializer):
         fields = [
             "id",
             "product_and_variation",
-            "product_and_variation_id",
             "quantity",
             "unit_cost",
             "price",
         ]
-
-    def get_product_and_variation_id(self, obj):
-        if not obj.product_and_variation:
-            return None
-        return int(obj.product_and_variation.pk)
 
 
 class PurchaseCRUDSerializer(BaseSerializer):
@@ -117,6 +111,9 @@ class PurchaseCRUDSerializer(BaseSerializer):
 
                 if item.get("id"):
                     item_instance = item.pop("id", None)
+                    product_and_variation = item.pop("product_and_variation", None)
+                    if product_and_variation:
+                        item["product_and_variation"] = product_and_variation.pk
 
                 if item_instance:
                     serializer = PurchaseMultiItemCRUDSerializer(data=item)
