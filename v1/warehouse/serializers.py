@@ -113,7 +113,7 @@ class PurchaseCRUDSerializer(BaseSerializer):
                     item_instance = item.pop("id", None)
                     product_and_variation = item.pop("product_and_variation", None)
                     if product_and_variation:
-                        item["product_and_variation"] = product_and_variation.pk
+                        item["product_and_variation"] = product_and_variation
 
                 if item_instance:
                     serializer = PurchaseMultiItemCRUDSerializer(data=item)
