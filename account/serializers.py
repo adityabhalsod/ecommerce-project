@@ -1,7 +1,7 @@
 from base.serializers import BaseSerializer
 from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.models import Group, Permission
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import exceptions, serializers
 from rest_framework.exceptions import ValidationError

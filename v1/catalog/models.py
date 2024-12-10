@@ -5,7 +5,7 @@ from django.contrib.gis.db import models
 from django.core.files.base import ContentFile
 from django.db.models import Max
 from django.template.defaultfilters import slugify
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from PIL import Image
 
 from base import file_dir
@@ -38,6 +38,7 @@ class Category(BaseModel):
     is_main = models.BooleanField(default=True)
 
     class Meta:
+        app_label = 'catalog'  # Replace with your app name
         verbose_name = "Category"
         verbose_name_plural = "Categories"
 
@@ -69,7 +70,7 @@ class Category(BaseModel):
             )
 
         # slugify
-        self.slug = slugify(force_text(self.name))
+        self.slug = slugify(force_str(self.name))
 
         if self._state.adding:
             # Current count
@@ -101,6 +102,9 @@ class Category(BaseModel):
 
 
 class Unit(BaseModel):
+    class Meta:
+        app_label = 'catalog'  # Replace with your app name
+
     name = models.CharField(max_length=50, default="", null=True, blank=True)
     short_name = models.CharField(max_length=10, default="", null=True, blank=True)
 
@@ -109,6 +113,9 @@ class Unit(BaseModel):
 
 
 class ProductPhoto(BaseModel):
+    class Meta:
+        app_label = 'catalog'  # Replace with your app name
+
     original = models.ImageField(
         upload_to=file_dir.product_upload_path, blank=True, null=True
     )
@@ -152,6 +159,9 @@ class ProductPhoto(BaseModel):
 
 
 class Product(BaseModel):
+    class Meta:
+        app_label = 'catalog'  # Replace with your app name
+
     item_code = models.CharField(max_length=255, default="", null=True, blank=True)
     item_name = models.CharField(max_length=255, default="", null=True, blank=True)
     bill_display_item_name = models.CharField(
@@ -183,11 +193,14 @@ class Product(BaseModel):
         return str(self.item_name)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(force_text(self.item_name))
+        self.slug = slugify(force_str(self.item_name))
         return super(Product, self).save(*args, **kwargs)
 
 
 class ProductStockMaster(BaseModel):
+    class Meta:
+        app_label = 'catalog'  # Replace with your app name
+
     is_exclusive_item = models.BooleanField(default=False)
     is_super_saving_item = models.BooleanField(default=False)
     one_rs_store = models.BooleanField(default=False)
@@ -210,6 +223,9 @@ class ProductStockMaster(BaseModel):
 
 
 class VariationPhoto(BaseModel):
+    class Meta:
+        app_label = 'catalog'  # Replace with your app name
+
     original = models.ImageField(
         upload_to=file_dir.variation_upload_path, blank=True, null=True
     )
@@ -253,6 +269,9 @@ class VariationPhoto(BaseModel):
 
 
 class Variation(BaseModel):
+    class Meta:
+        app_label = 'catalog'  # Replace with your app name
+
     product_stock_master = models.ForeignKey(
         "catalog.ProductStockMaster",
         null=True,

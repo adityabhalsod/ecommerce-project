@@ -1,7 +1,7 @@
 import os
 from django.contrib.gis.db import models
 from django.template.defaultfilters import slugify
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from base.models import BaseModel
 from django.db.models import Max
 from base import file_dir
@@ -134,7 +134,7 @@ class GroupStructure(BaseModel):
 
     def save(self, *args, **kwargs):
         # slugify
-        self.slug = slugify(force_text(self.group_name))
+        self.slug = slugify(force_str(self.group_name))
 
         if self._state.adding:
             # Current count

@@ -6,6 +6,9 @@ from v1.warehouse.choice import ProductTaxType, DiscountType
 
 
 class Warehouse(BaseModel):
+    class Meta:
+        app_label = "warehouse"
+
     name = models.CharField(max_length=255, default="", null=True, blank=True)
     city = models.CharField(max_length=64, default="", null=True, blank=True)
     state = models.CharField(max_length=25, default="", null=True, blank=True)
@@ -19,6 +22,9 @@ class Warehouse(BaseModel):
 
 
 class Supplier(BaseModel):
+    class Meta:
+        app_label = "warehouse"
+
     business_name = models.CharField(max_length=255, default="", null=True, blank=True)
     mobile = models.CharField(max_length=255, default="", null=True, blank=True)
     email = models.CharField(max_length=255, default="", null=True, blank=True)
@@ -34,6 +40,9 @@ class Supplier(BaseModel):
 
 
 class Purchase(BaseModel):
+    class Meta:
+        app_label = "warehouse"
+
     multiple_item = models.ManyToManyField(
         "warehouse.PurchaseMultiItem", related_name="purchase_multipleitem", blank=True
     )
@@ -82,6 +91,9 @@ class Purchase(BaseModel):
 
 #  MultipleItem for Purchase
 class PurchaseMultiItem(BaseModel):
+    class Meta:
+        app_label = "warehouse"
+
     product_and_variation = models.ForeignKey(
         "catalog.Variation",
         blank=True,
@@ -110,6 +122,9 @@ class PurchaseMultiItem(BaseModel):
 
 
 class StockTransfer(BaseModel):
+    class Meta:
+        app_label = "warehouse"
+
     multiple_item = models.ManyToManyField(
         "warehouse.StockTransferMultiItem",
         related_name="stocktransfer_multipleitem",
@@ -137,6 +152,9 @@ class StockTransfer(BaseModel):
 
 
 class StockTransferMultiItem(BaseModel):
+    class Meta:
+        app_label = "warehouse"
+
     product_and_variation = models.ForeignKey(
         "catalog.Variation",
         blank=True,
@@ -155,6 +173,9 @@ class StockTransferMultiItem(BaseModel):
 
 
 class WarehouseStockManagement(BaseModel):
+    class Meta:
+        app_label = "warehouse"
+
     product_and_variation = models.ForeignKey(
         "catalog.Variation",
         blank=True,
@@ -181,6 +202,9 @@ class WarehouseStockManagement(BaseModel):
 
 
 class StoreStockManagement(BaseModel):
+    class Meta:
+        app_label = "warehouse"
+        
     product_and_variation = models.ForeignKey(
         "catalog.Variation",
         blank=True,

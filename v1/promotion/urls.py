@@ -20,7 +20,7 @@ router.register(
 router.register(
     r"referral-and-earn",
     ReferralAndEarnViewSet,
-    basename="discount-voucher-mutation",
+    basename="referral-and-earn",
 )
 
 

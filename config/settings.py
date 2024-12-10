@@ -301,3 +301,5 @@ SWAGGER_SETTINGS = {
 }
 
 DATETIME_FORMAT = "d-m-Y g:i:A"
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

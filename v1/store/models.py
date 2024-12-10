@@ -1,7 +1,7 @@
 from django.contrib.gis.db import models
 from django.db.models import Max
 from django.template.defaultfilters import slugify
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from base import google_map
 from base.models import BaseModel
 
@@ -37,10 +37,11 @@ class Store(BaseModel):
     )
 
     class Meta:
+        app_label = "store"
         unique_together = [("store_name",)]
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(force_text(self.store_name))
+        self.slug = slugify(force_str(self.store_name))
 
         if self._state.adding:
             # Current count

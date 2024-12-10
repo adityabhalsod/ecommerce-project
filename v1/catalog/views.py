@@ -26,9 +26,7 @@ from v1.catalog.serializers import (
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.exclude(is_deleted=True).annotate(
-        product_count=Count("product_category")
-    )
+    queryset = Category.objects.exclude(is_deleted=True)
     serializer_class = CategoryCRUDSerializer
     filter_backends = [
         filters.DjangoFilterBackend,

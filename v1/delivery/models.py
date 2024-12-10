@@ -53,6 +53,7 @@ class DeliveryBoy(BaseModel):
     bank_branch_address = models.TextField(default="", null=True, blank=True)
 
     class Meta:
+        app_label = "delivery"
         unique_together = [("user",)]
 
     def __str__(self):
@@ -60,6 +61,9 @@ class DeliveryBoy(BaseModel):
 
 
 class DeliveryBoyVehiclePhotos(BaseModel):
+    class Meta:
+        app_label = "delivery"
+        
     original = models.ImageField(
         upload_to=file_dir.delivery_boy_vehicle_original_upload_path,
         blank=True,
