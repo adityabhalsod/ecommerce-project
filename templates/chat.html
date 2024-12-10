@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <style>
+        /* Basic Reset */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chat-container {
+            width: 400px;
+            border: 2px solid #0078D7;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: #0078D7;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .chat-log {
+            height: 300px;
+            padding: 10px;
+            overflow-y: auto;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+
+        .chat-log div {
+            padding: 5px 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            background-color: #f1f1f1;
+        }
+
+        .chat-log div:nth-child(odd) {
+            background-color: #e2f0ff;
+        }
+
+        .chat-input-container {
+            display: flex;
+            padding: 10px;
+            gap: 10px;
+            background-color: #f4f4f9;
+        }
+
+        .chat-input-container input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .chat-input-container button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #0078D7;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .chat-input-container button:hover {
+            background-color: #005bb5;
+        }
+
+        .chat-input-container button:active {
+            background-color: #003f82;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            Welcome to Chat Room: {{ room_name }}
+        </div>
+        <div class="chat-log" id="chat-log">
+            <!-- Messages will be displayed here -->
+        </div>
+        <div class="chat-input-container">
+            <input id="chat-message-input" type="text" placeholder="Type your message...">
+            <button id="chat-message-submit">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const roomName = "{{ room_name }}";
+        const chatSocket = new WebSocket(
+            `ws://${window.location.host}/ws/chat/${roomName}/`
+        );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            const chatLog = document.querySelector('#chat-log');
+            const messageDiv = document.createElement('div');
+            messageDiv.textContent = data.message;
+            chatLog.appendChild(messageDiv);
+            chatLog.scrollTop = chatLog.scrollHeight; // Auto-scroll to the bottom
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function() {
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value.trim();
+            if (message) {
+                chatSocket.send(JSON.stringify({ 'message': message }));
+                messageInputDom.value = '';
+            }
+        };
+
+        document.querySelector('#chat-message-input').onkeypress = function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+    </script>
+</body>
+</html>

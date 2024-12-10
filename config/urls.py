@@ -18,6 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import TemplateView
+from django.shortcuts import render
 
 from .documentation import documentation_url
 
@@ -30,6 +31,8 @@ actions.add_to_site(site)
 # from django_otp.admin import OTPAdminSite
 # admin.site.__class__ = OTPAdminSite
 
+def chat(request, room_name):
+    return render(request, 'chat.html', {'room_name': room_name})
 
 urlpatterns = (
     [
@@ -50,6 +53,7 @@ urlpatterns = (
         path("api/v1/warehouse/", include("v1.warehouse.urls", namespace="warehouse")),
         path("api/v1/wallet/", include("v1.wallet.urls", namespace="wallet")),
         path("ckeditor/", include("ckeditor_uploader.urls")),
+        path('chat/<str:room_name>/', chat),
         path("quickly/super-admin/", admin.site.urls),
         path("quickly/super-admin/postgres-metrics/", include("postgres_metrics.urls")),
         path("quickly/super-admin/adminactions/", include("adminactions.urls")),
